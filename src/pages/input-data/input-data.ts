@@ -37,9 +37,15 @@ export class InputDataPage {
       content: "Please wait...",
       duration: 3000
     });
-    this.remoteservice.getPrices(ma.value, mo.value, ye.value, lo.value)
-    loader.present();
-    this.navCtrl.push(SavingCostPage);
+    
+    console.log(ma+" "+mo);
+    this.remoteservice.getPrices(ma.value, mo.value, ye.value, lo.value);
+    if(this.remoteservice.getSavings() != null){
+      loader.present();
+      this.navCtrl.push(SavingCostPage);
+    }
+    
+    
   }
 
 

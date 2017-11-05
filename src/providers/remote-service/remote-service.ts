@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import xml2js from "xml2js";
@@ -10,9 +11,8 @@ import 'rxjs/add/operator/toPromise';
 */
 @Injectable()
 export class RemoteServiceProvider {
-  json_data: any = "";
-  y: any;
-  saving: any = null;
+  saving: any;
+  json_data: Observable<any>;;
   constructor(public http: Http) {
     console.log('Hello RemoteServiceProvider Provider');
   }
@@ -20,6 +20,8 @@ export class RemoteServiceProvider {
     const url = "http://www.fueleconomy.gov/ws/rest/ympg/shared/vehicles?make=" + make + "&model=" + model;
     return this.http.get(url).map(body =>{
       body.json();
+    }).subscribe(res=>{
+      console.log(res);
     });
     //console.log(this.json_data);
     //console.log("first print " + this.json_data);
@@ -39,12 +41,21 @@ export class RemoteServiceProvider {
     }
     console.log(op);*/
   }
+
+
+    sendOut(x){
+      console.log(x);
+    }
+  
+
 getPrices(ma, mo, ye, lo?){
   console.log(ma+" "+mo);
   const url = "http://www.fueleconomy.gov/ws/rest/ympg/shared/vehicles?make=" + ma + "&model=" + mo;
   console.log(url);
-  this.y = this.http.get(url).subscribe(res=>{console.log(res.json())});
-  console.log(this.y);
+  this.http.get(url).subscribe(res=>{
+    console.log(res.json());
+    this.sendOut(res.json());
+  });
 
     //console.log(this.json_data);
     /*this.http.get("http://api.mygasfeed.com/stations/radius/38.58431244/-121.4956055/5/reg/price/tozypp5oqi.json")
@@ -55,7 +66,7 @@ getPrices(ma, mo, ye, lo?){
   }
 
   getSavings(){
-    console.log("xxxx"+this.saving);
     return this.saving;
   }
+
 }

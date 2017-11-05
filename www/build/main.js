@@ -38,10 +38,9 @@ SavingCostPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
         selector: 'page-saving-cost',template:/*ion-inline-start:"/Users/jamesmilord/Documents/new/Hackumass-project/src/pages/saving-cost/saving-cost.html"*/'<!--\n  Generated template for the SavingCostPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>saving-cost</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/Users/jamesmilord/Documents/new/Hackumass-project/src/pages/saving-cost/saving-cost.html"*/,
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */]])
 ], SavingCostPage);
 
-var _a, _b;
 //# sourceMappingURL=saving-cost.js.map
 
 /***/ }),
@@ -124,14 +123,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var RemoteServiceProvider = (function () {
     function RemoteServiceProvider(http) {
         this.http = http;
-        this.json_data = "";
-        this.saving = null;
         console.log('Hello RemoteServiceProvider Provider');
     }
+    ;
     RemoteServiceProvider.prototype.get_make_model_data = function (make, model) {
         var url = "http://www.fueleconomy.gov/ws/rest/ympg/shared/vehicles?make=" + make + "&model=" + model;
         return this.http.get(url).map(function (body) {
             body.json();
+        }).subscribe(function (res) {
+            console.log(res);
         });
         //console.log(this.json_data);
         //console.log("first print " + this.json_data);
@@ -150,12 +150,18 @@ var RemoteServiceProvider = (function () {
         }
         console.log(op);*/
     };
+    RemoteServiceProvider.prototype.sendOut = function (x) {
+        console.log(x);
+    };
     RemoteServiceProvider.prototype.getPrices = function (ma, mo, ye, lo) {
+        var _this = this;
         console.log(ma + " " + mo);
         var url = "http://www.fueleconomy.gov/ws/rest/ympg/shared/vehicles?make=" + ma + "&model=" + mo;
         console.log(url);
-        this.y = this.http.get(url).subscribe(function (res) { console.log(res.json()); });
-        console.log(this.y);
+        this.http.get(url).subscribe(function (res) {
+            console.log(res.json());
+            _this.sendOut(res.json());
+        });
         //console.log(this.json_data);
         /*this.http.get("http://api.mygasfeed.com/stations/radius/38.58431244/-121.4956055/5/reg/price/tozypp5oqi.json")
         .subscribe(res=>{
@@ -163,7 +169,6 @@ var RemoteServiceProvider = (function () {
         });*/
     };
     RemoteServiceProvider.prototype.getSavings = function () {
-        console.log("xxxx" + this.saving);
         return this.saving;
     };
     return RemoteServiceProvider;
@@ -306,12 +311,14 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ionic_native_status_bar__ = __webpack_require__(258);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ionic_native_splash_screen__ = __webpack_require__(261);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__providers_remote_service_remote_service__ = __webpack_require__(192);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__providers_state_service_state_service__ = __webpack_require__(458);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -360,7 +367,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_9__ionic_native_status_bar__["a" /* StatusBar */],
             __WEBPACK_IMPORTED_MODULE_10__ionic_native_splash_screen__["a" /* SplashScreen */],
             { provide: __WEBPACK_IMPORTED_MODULE_3__angular_core__["v" /* ErrorHandler */], useClass: __WEBPACK_IMPORTED_MODULE_4_ionic_angular__["b" /* IonicErrorHandler */] },
-            __WEBPACK_IMPORTED_MODULE_11__providers_remote_service_remote_service__["a" /* RemoteServiceProvider */]
+            __WEBPACK_IMPORTED_MODULE_11__providers_remote_service_remote_service__["a" /* RemoteServiceProvider */],
+            __WEBPACK_IMPORTED_MODULE_12__providers_state_service_state_service__["a" /* StateServiceProvider */]
         ]
     })
 ], AppModule);
@@ -484,6 +492,292 @@ CarService = __decorate([
 
 /***/ }),
 
+/***/ 458:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return StateServiceProvider; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map__ = __webpack_require__(425);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+/*
+  Generated class for the StateServiceProvider provider.
+
+  See https://angular.io/guide/dependency-injection for more info on providers
+  and Angular DI.
+*/
+var StateServiceProvider = (function () {
+    function StateServiceProvider() {
+    }
+    StateServiceProvider.prototype.getStates = function () {
+        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].of(STATES);
+    };
+    StateServiceProvider.prototype.getListOfStates = function () {
+        return STATES;
+    };
+    return StateServiceProvider;
+}());
+StateServiceProvider = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])()
+], StateServiceProvider);
+
+var STATES = [
+    {
+        "name": "N/A",
+        "abbreviation": "N/A"
+    },
+    {
+        "name": "Alabama",
+        "abbreviation": "AL"
+    },
+    {
+        "name": "Alaska",
+        "abbreviation": "AK"
+    },
+    {
+        "name": "American Samoa",
+        "abbreviation": "AS"
+    },
+    {
+        "name": "Arizona",
+        "abbreviation": "AZ"
+    },
+    {
+        "name": "Arkansas",
+        "abbreviation": "AR"
+    },
+    {
+        "name": "California",
+        "abbreviation": "CA"
+    },
+    {
+        "name": "Colorado",
+        "abbreviation": "CO"
+    },
+    {
+        "name": "Connecticut",
+        "abbreviation": "CT"
+    },
+    {
+        "name": "Delaware",
+        "abbreviation": "DE"
+    },
+    {
+        "name": "District Of Columbia",
+        "abbreviation": "DC"
+    },
+    {
+        "name": "Federated States Of Micronesia",
+        "abbreviation": "FM"
+    },
+    {
+        "name": "Florida",
+        "abbreviation": "FL"
+    },
+    {
+        "name": "Georgia",
+        "abbreviation": "GA"
+    },
+    {
+        "name": "Guam",
+        "abbreviation": "GU"
+    },
+    {
+        "name": "Hawaii",
+        "abbreviation": "HI"
+    },
+    {
+        "name": "Idaho",
+        "abbreviation": "ID"
+    },
+    {
+        "name": "Illinois",
+        "abbreviation": "IL"
+    },
+    {
+        "name": "Indiana",
+        "abbreviation": "IN"
+    },
+    {
+        "name": "Iowa",
+        "abbreviation": "IA"
+    },
+    {
+        "name": "Kansas",
+        "abbreviation": "KS"
+    },
+    {
+        "name": "Kentucky",
+        "abbreviation": "KY"
+    },
+    {
+        "name": "Louisiana",
+        "abbreviation": "LA"
+    },
+    {
+        "name": "Maine",
+        "abbreviation": "ME"
+    },
+    {
+        "name": "Marshall Islands",
+        "abbreviation": "MH"
+    },
+    {
+        "name": "Maryland",
+        "abbreviation": "MD"
+    },
+    {
+        "name": "Massachusetts",
+        "abbreviation": "MA"
+    },
+    {
+        "name": "Michigan",
+        "abbreviation": "MI"
+    },
+    {
+        "name": "Minnesota",
+        "abbreviation": "MN"
+    },
+    {
+        "name": "Mississippi",
+        "abbreviation": "MS"
+    },
+    {
+        "name": "Missouri",
+        "abbreviation": "MO"
+    },
+    {
+        "name": "Montana",
+        "abbreviation": "MT"
+    },
+    {
+        "name": "Nebraska",
+        "abbreviation": "NE"
+    },
+    {
+        "name": "Nevada",
+        "abbreviation": "NV"
+    },
+    {
+        "name": "New Hampshire",
+        "abbreviation": "NH"
+    },
+    {
+        "name": "New Jersey",
+        "abbreviation": "NJ"
+    },
+    {
+        "name": "New Mexico",
+        "abbreviation": "NM"
+    },
+    {
+        "name": "New York",
+        "abbreviation": "NY"
+    },
+    {
+        "name": "North Carolina",
+        "abbreviation": "NC"
+    },
+    {
+        "name": "North Dakota",
+        "abbreviation": "ND"
+    },
+    {
+        "name": "Northern Mariana Islands",
+        "abbreviation": "MP"
+    },
+    {
+        "name": "Ohio",
+        "abbreviation": "OH"
+    },
+    {
+        "name": "Oklahoma",
+        "abbreviation": "OK"
+    },
+    {
+        "name": "Oregon",
+        "abbreviation": "OR"
+    },
+    {
+        "name": "Palau",
+        "abbreviation": "PW"
+    },
+    {
+        "name": "Pennsylvania",
+        "abbreviation": "PA"
+    },
+    {
+        "name": "Puerto Rico",
+        "abbreviation": "PR"
+    },
+    {
+        "name": "Rhode Island",
+        "abbreviation": "RI"
+    },
+    {
+        "name": "South Carolina",
+        "abbreviation": "SC"
+    },
+    {
+        "name": "South Dakota",
+        "abbreviation": "SD"
+    },
+    {
+        "name": "Tennessee",
+        "abbreviation": "TN"
+    },
+    {
+        "name": "Texas",
+        "abbreviation": "TX"
+    },
+    {
+        "name": "Utah",
+        "abbreviation": "UT"
+    },
+    {
+        "name": "Vermont",
+        "abbreviation": "VT"
+    },
+    {
+        "name": "Virgin Islands",
+        "abbreviation": "VI"
+    },
+    {
+        "name": "Virginia",
+        "abbreviation": "VA"
+    },
+    {
+        "name": "Washington",
+        "abbreviation": "WA"
+    },
+    {
+        "name": "West Virginia",
+        "abbreviation": "WV"
+    },
+    {
+        "name": "Wisconsin",
+        "abbreviation": "WI"
+    },
+    {
+        "name": "Wyoming",
+        "abbreviation": "WY"
+    }
+];
+//# sourceMappingURL=state-service.js.map
+
+/***/ }),
+
 /***/ 75:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -528,12 +822,9 @@ var InputDataPage = (function () {
             content: "Please wait...",
             duration: 3000
         });
-        console.log(ma + " " + mo);
         this.remoteservice.getPrices(ma.value, mo.value, ye.value, lo.value);
-        if (this.remoteservice.getSavings() != null) {
-            loader.present();
-            this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_1__saving_cost_saving_cost__["a" /* SavingCostPage */]);
-        }
+        loader.present();
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_1__saving_cost_saving_cost__["a" /* SavingCostPage */]);
     };
     return InputDataPage;
 }());
@@ -542,10 +833,12 @@ InputDataPage = __decorate([
         selector: 'page-input-data',template:/*ion-inline-start:"/Users/jamesmilord/Documents/new/Hackumass-project/src/pages/input-data/input-data.html"*/'<!--\n  Generated template for the InputDataPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Data</ion-title>\n  </ion-navbar>\n</ion-header>\n\n\n<ion-content padding>\n    <ion-list class="list-wrapper">\n          <ion-item>\n            <ion-input #make type="text" placeholder="Make"></ion-input>\n          </ion-item>\n        \n          <ion-item>\n            <ion-input #model type="text" placeholder="Model"></ion-input>\n          </ion-item>\n\n          <ion-item>\n              <ion-datetime #year class="date" placeholder="pick a date" displayFormat="YYYY" [(ngModel)]="myDate"></ion-datetime>\n          </ion-item>\n\n          <ion-item>\n              <ion-input #location type="text" placeholder="State(optional)" ></ion-input>\n          </ion-item>\n      </ion-list>\n        <button ion-button round color="secondary" (click)="presentLoading(make, model, year, location)">See the Savings</button>\n\n</ion-content>\n'/*ion-inline-end:"/Users/jamesmilord/Documents/new/Hackumass-project/src/pages/input-data/input-data.html"*/,
         providers: [__WEBPACK_IMPORTED_MODULE_0__providers_remote_service_remote_service__["a" /* RemoteServiceProvider */]]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["g" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["g" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["h" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["h" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["e" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["e" /* LoadingController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_0__providers_remote_service_remote_service__["a" /* RemoteServiceProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__providers_remote_service_remote_service__["a" /* RemoteServiceProvider */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_ionic_angular__["g" /* NavController */],
+        __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["h" /* NavParams */],
+        __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["e" /* LoadingController */],
+        __WEBPACK_IMPORTED_MODULE_0__providers_remote_service_remote_service__["a" /* RemoteServiceProvider */]])
 ], InputDataPage);
 
-var _a, _b, _c, _d;
 //# sourceMappingURL=input-data.js.map
 
 /***/ })

@@ -12,6 +12,7 @@ import { ListPage } from '../pages/list/list';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { RemoteServiceProvider } from '../providers/remote-service/remote-service';
+import { StateServiceProvider } from '../providers/state-service/state-service';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { RemoteServiceProvider } from '../providers/remote-service/remote-servic
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    RemoteServiceProvider
+    RemoteServiceProvider,
+    StateServiceProvider
   ]
 })
 export class AppModule {}

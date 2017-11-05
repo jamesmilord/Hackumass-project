@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Home</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-slides pager autoplay="2000" loop="true" speed="3000">
+      <ion-slide  *ngFor="let slide of slideData">
+        <img class="image"src="{{slide.image}}" />
+      </ion-slide>
+    </ion-slides >
+  <button class="start" (click)="startApp()" ion-button>Start</button>
+</ion-content>
+
